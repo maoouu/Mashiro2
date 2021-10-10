@@ -6,7 +6,6 @@ authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-"discord.py" = "^1.7.3"
 aiohttp = "^3.7.4"
 attrs = "^21.2.0"
 chardet = "^4.0.0"
@@ -17,6 +16,8 @@ backoff = "^1.11.1"
 typing-extensions = "^3.10.0"
 idna_ssl = "^1.1.0"
 Flask = "^2.0.2"
+psutil = "^5.8.0"
+nextcord = "^2.0.0-alpha.3"
 
 [tool.poetry.dev-dependencies]
 

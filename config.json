@@ -1,9 +1,10 @@
 {
+  "advanced_traceback_mode": "true",
   "prefix": "!!",
   "join_message": "Thanks for adding me!" ,
   "activity": "!!help",
-  "activity_type": "playing",
-  "online_type": "online",
+  "activity_type": ["playing", "watching", "listening", "competing"],
+  "status": ["online", "idle", "dnd"],
   "owner_deletion_messages": ["What are you doing? lmao", "Seriously?"],
   "version": "1.0.0_SNAPSHOT"
 }

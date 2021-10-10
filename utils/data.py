@@ -1,7 +1,7 @@
-import discord
+import nextcord
 
 from utils import permissions
-from discord.ext.commands import AutoShardedBot, DefaultHelpCommand
+from nextcord.ext.commands import AutoShardedBot, DefaultHelpCommand
 
 class Bot(AutoShardedBot):
   def __init__(self, *args, prefix=None, **kwargs):
@@ -32,13 +32,13 @@ class HelpFormat(DefaultHelpCommand):
     try:
       if permissions.can_handle(self.context, "add_reactions"):
         await self.context.message.add_reaction(chr(0x2709))
-    except discord.Forbidden:
+    except nextcord.Forbidden:
       pass
     
     try:
       destination = self.get_destination(no_pm=no_pm)
       for page in self.paginator.pages:
         await destination.send(page)
-    except discord.Forbidden:
+    except nextcord.Forbidden:
       destination = self.get_destination(no_pm=True)
       await destination.send("Couldn't send due to blocked DM's")

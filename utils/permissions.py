@@ -1,9 +1,9 @@
 import os
-import discord
+import nextcord
 import random
 
 from utils import default
-from discord.ext import commands
+from nextcord.ext import commands
 
 owner = os.environ['OWNER_ID']
 config = default.config()
@@ -57,7 +57,7 @@ async def check_priv(ctx, member):
 
 
 def has_permissions(*, check=all, **perms):
-  """ discord.Commands method if author has permissions """
+  """ nextcord.Commands method if author has permissions """
   async def pred(ctx):
     return await check_permissions(ctx, perms, check=check)
   
@@ -66,4 +66,4 @@ def has_permissions(*, check=all, **perms):
 
 def can_handle(ctx, permission: str):
   """ If bot has permissions or in DM's """
-  return isinstance(ctx.channel, discord.DMChannel) or getattr(ctx.channel.permissions_for(ctx.guild.me), permission)
+  return isinstance(ctx.channel, nextcord.DMChannel) or getattr(ctx.channel.permissions_for(ctx.guild.me), permission)

@@ -1,19 +1,19 @@
 import os
-import discord
+import nextcord
 import keep_alive
 
 from utils import default
 from utils.data import Bot, HelpFormat
 
-config = default.config()
+config = default.config() 
 print("Logging in...")
+
 
 bot = Bot(
   command_prefix=config["prefix"],
-  prefix=config["prefix"],
   command_attrs=dict(hidden=True),
   help_command=HelpFormat(),
-  intents=discord.Intents(
+  intents=nextcord.Intents(
     guilds=True, members=True, messages=True,
     reactions=True, presences=True
   )
