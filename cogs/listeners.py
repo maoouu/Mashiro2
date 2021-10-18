@@ -25,9 +25,11 @@ class Listeners(commands.Cog):
     async def on_ready(self):
       if not hasattr(self.bot, 'uptime'):
         self.bot.uptime = datetime.utcnow()
+
       # Check if user wants different status
       status = self.config["status"].lower()
       status_type = {"idle": nextcord.Status.idle, "dnd": nextcord.Status.dnd}
+
       # Check if user wants different activity
       activity = self.config["activity_type"].lower()
       activity_type = {"listening": 2, "watching": 3, "competing": 5}

@@ -13,6 +13,7 @@ bot = Bot(
   command_prefix=config["prefix"],
   command_attrs=dict(hidden=True),
   help_command=HelpFormat(),
+  owner_id = int(os.environ['OWNER_ID']),
   intents=nextcord.Intents(
     guilds=True, members=True, messages=True,
     reactions=True, presences=True
