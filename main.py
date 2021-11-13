@@ -5,9 +5,15 @@ import keep_alive
 from utils import default
 from utils.data import Bot, HelpFormat
 
+config = default.config()
+
+
+# def get_prefix(bot, message):
+#    db = default.database()
+#    return db[message.guild.id] if db[message.guild.id] else config["prefix"]
+
 
 def main():
-    config = default.config()
     print("Logging in...")
     bot = Bot(
         command_prefix=config["prefix"],

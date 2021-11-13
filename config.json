@@ -2,8 +2,8 @@
   "prefix": "!!",
   "join_message": "Thanks for adding me!" ,
   "activity": "!!help",
-  "activity_type": ["playing", "watching", "listening", "competing"],
-  "status": ["online", "idle", "dnd"],
+  "activity_type": "playing|watching|listening|competing",
+  "status": "online|idle|dnd",
   "owner_deletion_messages": ["What are you doing? lmao", "Seriously?"],
   "advanced_traceback_mode": "true",
   "version": "1.0.0_SNAPSHOT"
