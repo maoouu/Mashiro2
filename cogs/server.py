@@ -19,15 +19,17 @@ class Server(commands.Cog):
 
     @commands.command()
     @commands.guild_only()
-    async def prefix(self, ctx, prefix: str = None):
+    async def prefix(self, ctx, new_prefix: str = None):
         """Shows the server's prefix. Can be configured"""
-        if prefix == None:
-            await ctx.send(f"My prefix is `{self.bot.command_prefix}`")
-        # elif prefix == self.bot.command_prefix:
-        #    await ctx.send(f"Prefix is already `{prefix}`.")
-        # else:
-        #    self.bot.command_prefix = prefix
-        #    await ctx.send(f"Prefix is now set to `{self.bot.command_prefix}`")
+        guild_prefix = self.db[str(ctx.guild.id)]
+        if new_prefix == None:
+            # await ctx.send(f"My prefix is `{self.bot.command_prefix}`")
+            await ctx.send(f"My prefix is `{guild_prefix}`")
+        elif new_prefix == guild_prefix:
+            await ctx.send(f"Prefix is already set to`{new_prefix}`.")
+        else:
+            self.db[guild_prefix] = new_prefix
+            await ctx.send(f"Prefix is now set to `{new_prefix}`")
 
 
 def setup(bot):

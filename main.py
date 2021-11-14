@@ -8,15 +8,25 @@ from utils.data import Bot, HelpFormat
 config = default.config()
 
 
-# def get_prefix(bot, message):
-#    db = default.database()
-#    return db[message.guild.id] if db[message.guild.id] else config["prefix"]
+def get_prefix(bot, message):
+    """Gets the custom guild prefix,
+    returns default prefix if it doesn't exist."""
+    db = default.database()
+    prefix = config["prefix"]
+    guild_id = str(message.guild.id)
+
+    if guild_id in db.keys():
+        prefix = db[guild_id]
+    else:
+        db[guild_id] = prefix
+
+    return prefix
 
 
 def main():
     print("Logging in...")
     bot = Bot(
-        command_prefix=config["prefix"],
+        command_prefix=get_prefix,  # config["prefix"],
         command_attrs=dict(hidden=True),
         help_command=HelpFormat(),
         owner_id=int(os.environ["OWNER_ID"]),
