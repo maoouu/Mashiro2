@@ -95,4 +95,9 @@ def get_doujin_embed(doujin_id):
 
 
 def get_readable_doujin(doujin_id):
-    pass
+    if Hentai.exists(doujin_id):
+        doujin = Hentai(doujin_id)
+        pages = doujin.pages
+        return pages
+    else:
+        pass
