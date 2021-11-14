@@ -21,7 +21,8 @@ class Nhentai(commands.Cog):
     @commands.guild_only()
     async def read(self, ctx, hentai_code):
         """Turns doujin into a readable discord embed."""
-        message = await ctx.send(f"")
+        embed = doujintools.get_readable_doujin(hentai_code)
+        message = await ctx.send(embed[0])
 
 
 def setup(bot):
