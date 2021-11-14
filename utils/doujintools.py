@@ -1,64 +1,63 @@
+import asyncio
+
 from hentai import Hentai, Format
 from nextcord import Embed
 
+colors = {
+    "RED": 0xc93434,
+}
+
+nhentai_icon = "https://clipground.com/images/nhentai-logo-3.jpg"
 
 def get_doujin_embed(doujin_id):
-    doujin = ""
-    title = ""
-    description = ""
-    jp_title = ""
-    artists = []
-    characters = []
-    groups = []
-    tags = []
-    embed = Embed()
+    """Prepares an embed to display information according to the parsed doujin_id.
+    
+    Parameters
+    ----------
+    doujin_id : str
+        user-input Nhentai Doujin ID.
+    """
 
     # First, check if doujin id exists in NHentai
     if Hentai.exists(doujin_id):
         try:
+            # Get Hentai object from parsing doujin_id
             doujin = Hentai(doujin_id)
 
             # Get EN Title if it exists, else get JP title
-            if doujin.title(Format.English):
-                title = doujin.title(Format.English)
-            else:
-                title = doujin.title(Format.Japanese)
+            title = doujin.title(Format.English) if doujin.title(Format.English) else doujin.title
+            (Format.Japanese)
 
             # Get the Artist
+            artists = "N/A"
             if doujin.artist:
                 artists = [f"`{getattr(artist, 'name')}`" for artist in doujin.artist]
                 artists = ", ".join(artists)
-            else:
-                artists = "N/A"
 
             # Get JP Title if it exists
+            jp_title = "N/A"
             if doujin.title(Format.Japanese):
                 jp_title = doujin.title(Format.Japanese)
-            else:
-                jp_title = "N/A"
 
             # Gets the characters if it exist
+            characters = "N/A"
             if doujin.character:
                 characters = [
                     f"{getattr(character, 'name')}" for character in doujin.character
                 ]
                 characters = ", ".join(characters)
-            else:
-                characters = "N/A"
 
             # Gets the author group
+            groups = "N/A"
             if doujin.group:
                 groups = [f"{getattr(group, 'name')}" for group in doujin.group]
                 groups = ", ".join(groups)
-            else:
-                groups = "N/A"
 
             # Collect all the doujin's tags
+            tags = "N/A"
             if doujin.tag:
                 tags = [getattr(tag, "name") for tag in doujin.tag]
                 tags = ", ".join(tags)
-            else:
-                tags = "N/A"
 
             description = f"""ID: `{doujin.id}`
             Japanese Title: `{jp_title}`
@@ -69,11 +68,12 @@ def get_doujin_embed(doujin_id):
             Tags: `{tags}`"""
 
             # Assemble the embed
-            embed = Embed(title=title, description=description)
+            embed = Embed(title=title, description=description, url=doujin.url)
             embed.set_thumbnail(url=doujin.thumbnail)
             embed.set_author(
                 name="NHentai",
-                icon_url="https://clipground.com/images/nhentai-logo-3.jpg",
+                icon_url=nhentai_icon,
+                url=doujin.HOME
             )
             embed.set_image(url=doujin.cover)
             embed.set_footer(
@@ -85,19 +85,52 @@ def get_doujin_embed(doujin_id):
             print(f"There's something wrong with the embed: {e}")
 
     else:
-        title = "Error"
-        description = "The doujin you are looking for does not exist"
-        embed = Embed(title=title, description=description)
+        embed = Embed(title="Error", description="The doujin you are looking for does not exist")
         embed.set_author(
-            name="NHentai", icon_url="https://clipground.com/images/nhentai-logo-3.jpg"
+            name="NHentai", icon_url=nhentai_icon
         )
         return embed
 
 
-def get_readable_doujin(doujin_id):
+async def doujin_reader(ctx, message, doujin_id):
+    """ Handles the initialization and preparing readable discord embeds for doujin_id.
+    
+    Parameters
+    ----------
+    ctx : nextcord.ext.Commands.Context
+        Nextcord command context.
+
+    message : nextcord.Message
+        previous message by the bot.
+
+    doujin_id : str
+        parseable nhentai doujin ID.
+    """
     if Hentai.exists(doujin_id):
-        doujin = Hentai(doujin_id)
-        pages = doujin.pages
-        return pages
+        try:
+            #Initialize data
+            doujin = Hentai(doujin_id)
+            title = doujin.title(Format.Pretty)
+            pages = tuple([getattr(pages, "url") for pages in doujin.pages])
+
+            #Prepare the embed
+            embed = Embed(color=colors["RED"])
+            embed.set_author(name="NHentai",icon_url=nhentai_icon,
+            url=doujin.HOME
+            )
+            embed.set_image(url=pages[0])
+            embed.set_footer(text=f"Page 1/{len(pages)}")
+
+            #Present and save the reader to be used for iterating.
+            await message.edit(content=f"Reading **{title}**...")
+            reader = await ctx.send(embed=embed)
+        except Exception as e:
+            await ctx.send(f"There was something wrong with loading the doujin, please try again: {e}")
     else:
-        pass
+        embed = Embed(title="Error", description="The doujin you are looking for does not exist.", color=colors["RED"])
+        await message.edit(content="", embed=embed)
+        await asyncio.sleep(3)
+        await message.delete()
+        await ctx.message.delete()
+
+        
