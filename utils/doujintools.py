@@ -6,10 +6,7 @@ def get_doujin_embed(doujin_id):
     doujin = ""
     title = ""
     description = ""
-    # footer = ""
     jp_title = ""
-    # cover = ""
-    # thumbnail = ""
     artists = []
     characters = []
     groups = []
@@ -95,3 +92,7 @@ def get_doujin_embed(doujin_id):
             name="NHentai", icon_url="https://clipground.com/images/nhentai-logo-3.jpg"
         )
         return embed
+
+
+def get_readable_doujin(doujin_id):
+    pass

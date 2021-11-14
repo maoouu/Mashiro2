@@ -1,8 +1,9 @@
 import os
 import importlib
 
+from nextcord import Embed
 from nextcord.ext import commands
-from utils import default, permissions
+from utils import default
 
 
 class Owner(commands.Cog):
@@ -18,7 +19,8 @@ class Owner(commands.Cog):
             self.bot.load_extension(f"cogs.{name}")
         except Exception as e:
             return await ctx.send(default.tracemaker(e))
-        await ctx.send(f"Loaded extension: [`{name}`]")
+        embed = Embed(description=f"Loaded extension: [`{name}`]")
+        await ctx.send(embed=Embed)
 
     @commands.command()
     @commands.is_owner()
@@ -28,7 +30,8 @@ class Owner(commands.Cog):
             self.bot.unload_extension(f"cogs.{name}")
         except Exception as e:
             return await ctx.send(default.tracemaker(e))
-        await ctx.send(f"Unloaded extension: [`{name}`]")
+        embed = Embed(description=f"Unloaded extension: [`{name}`]")
+        await ctx.send(embed=embed)
 
     @commands.command()
     @commands.is_owner()
@@ -38,7 +41,8 @@ class Owner(commands.Cog):
             self.bot.reload_extension(f"cogs.{name}")
         except Exception as e:
             return await ctx.send(default.traceback_maker(e))
-        await ctx.send(f"Reloaded extension [`{name}`]")
+        embed = Embed(description=f"Reloaded extension [`{name}`]")
+        await ctx.send(embed=embed)
 
     @commands.command()
     @commands.is_owner()
@@ -68,8 +72,8 @@ class Owner(commands.Cog):
                     f"Attempted to reload all extensions, was able to reload, "
                     f"however the following failed...\n\n{output}"
                 )
-
-        await ctx.send("All extensions have reloaded successfully.")
+        embed = Embed(description="All extensions have reloaded successfully.")
+        await ctx.send(embed=embed)
 
     @commands.command()
     @commands.is_owner()
@@ -84,8 +88,8 @@ class Owner(commands.Cog):
         except Exception as e:
             error = default.traceback_maker(e)
             return await ctx.send(f"Module '{name}' cannot be reloaded:\n{error}")
-
-        await ctx.send(f"Reloaded module: {name_maker}")
+        embed = Embed(description=f"Reloaded module: {name_maker}")
+        await ctx.send(embed=embed)
 
 
 def setup(bot):

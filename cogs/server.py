@@ -1,4 +1,4 @@
-import nextcord
+from nextcord import Embed
 from nextcord.ext import commands
 from utils import default
 
@@ -15,7 +15,8 @@ class Server(commands.Cog):
         """Pong!"""
         latency = round(self.bot.latency * 1000)
         message = await ctx.send("Pong!")
-        await message.edit(content=f"Latency: {latency}ms")
+        embed = Embed(description=f"Latency: {latency}ms")
+        await message.edit(content="", embed=embed)
 
     @commands.command()
     @commands.guild_only()
@@ -24,13 +25,15 @@ class Server(commands.Cog):
         guild_id = str(ctx.guild.id)
         guild_prefix = self.db[guild_id]
         if new_prefix == None:
-            # await ctx.send(f"My prefix is `{self.bot.command_prefix}`")
-            await ctx.send(f"My prefix is `{guild_prefix}`")
+            embed = Embed(description=f"My prefix is `{guild_prefix}`")
+            await ctx.send(embed=embed)
         elif new_prefix == guild_prefix:
-            await ctx.send(f"Prefix is already set to`{new_prefix}`.")
+            embed = Embed(description=f"My prefix is `{guild_prefix}`")
+            await ctx.send(embed=embed)
         else:
             self.db[guild_id] = new_prefix
-            await ctx.send(f"Prefix is now set to `{new_prefix}`")
+            embed = Embed(description=f"Prefix is now set to `{new_prefix}`")
+            await ctx.send(embed=embed)
 
 
 def setup(bot):

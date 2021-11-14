@@ -7,16 +7,22 @@ class Nhentai(commands.Cog):
         self.bot = bot
         self.config = default.config()
 
-    # Async Commands
-    @commands.command(aliases=["sc"])
+    @commands.command(aliases=["dc"])
     @commands.is_nsfw()
     @commands.guild_only()
-    async def decode(self, ctx, doujin_id):
+    async def decode(self, ctx, hentai_code):
         """Sends an embed of the particular Doujin ID."""
-        message = await ctx.send(f"Retrieving `{doujin_id}`")
-        embed = doujintools.get_doujin_embed(doujin_id)
+        message = await ctx.send(f"Retrieving `{hentai_code}`")
+        embed = doujintools.get_doujin_embed(hentai_code)
         await message.edit(content="", embed=embed)
-        
+
+    @commands.command()
+    @commands.is_nsfw()
+    @commands.guild_only()
+    async def read(self, ctx, hentai_code):
+        """Turns doujin into a readable discord embed."""
+        message = await ctx.send(f"")
+
 
 def setup(bot):
     bot.add_cog(Nhentai(bot))
