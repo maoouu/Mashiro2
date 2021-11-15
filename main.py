@@ -2,6 +2,7 @@ import os
 import nextcord
 import keep_alive
 
+from nextcord.ext import commands
 from utils import default
 from utils.data import Bot, HelpFormat
 
@@ -20,13 +21,14 @@ def get_prefix(bot, message):
     else:
         db[guild_id] = prefix
 
-    return prefix
+    #return prefix
+    return commands.when_mentioned_or(prefix)(bot, message)
 
 
 def main():
     print("Logging in...")
     bot = Bot(
-        command_prefix=get_prefix,  # config["prefix"],
+        command_prefix=get_prefix,
         command_attrs=dict(hidden=True),
         help_command=HelpFormat(),
         owner_id=int(os.environ["OWNER_ID"]),

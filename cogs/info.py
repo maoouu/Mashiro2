@@ -8,7 +8,7 @@ class Information(commands.Cog):
 
     @commands.command()
     async def source(self, ctx):
-        """Give credits"""
+        """Fetches MashiroBot's source code link."""
         description = f"""{ctx.bot.user.name}'s source code can be found here:\nhttps://github.com/maoouu/Mashiro2\n\nMashiroBot's basic functions have been derived from AlexFlipNote's discord bot framework:\nhttps://github.com/AlexFlipnote/discord_bot.py
         """
 
