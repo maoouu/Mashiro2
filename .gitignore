@@ -1,5 +1,2 @@
 # Python Virtual Environment
 env/
-
-# Specific Cogs
-cogs/test.py
