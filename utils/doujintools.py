@@ -79,7 +79,7 @@ def get_doujin_embed(doujin_id):
             )
             embed.set_image(url=doujin.cover)
             embed.set_footer(
-                text=f"Uploaded at {doujin.upload_date.strftime('%d-%m-%Y')}"
+                text=f"Uploaded on {doujin.upload_date.strftime('%d-%m-%Y')}"
             )
             return embed
 
