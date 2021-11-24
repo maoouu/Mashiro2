@@ -9,8 +9,8 @@ class Information(commands.Cog):
     @commands.command()
     async def source(self, ctx):
         """Fetches MashiroBot's source code link."""
-        description = f"""{ctx.bot.user.name}'s source code can be found here:\nhttps://github.com/maoouu/Mashiro2\n\nMashiroBot's basic functions have been derived from AlexFlipNote's discord bot framework:\nhttps://github.com/AlexFlipnote/discord_bot.py
-        """
+        description = f"""{ctx.bot.user.name} is written in Python. You can find the source code here:\nhttps://github.com/maoouu/Mashiro2\n\nMashiroBot's basic functions have been derived from AlexFlipNote's discord bot framework:\nhttps://github.com/AlexFlipnote/discord_bot.py\n\nMashiroBot is powered by Nextcord's API Wrapper for Discord:\nhttps://github.com/nextcord/nextcord
+       """
 
         embed = nextcord.Embed(
           title="Source Code",

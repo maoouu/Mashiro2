@@ -2,12 +2,14 @@ import asyncio
 
 from hentai import Hentai, Format
 from nextcord import Embed
+from utils.reader import HentaiMenuPages, HentaiPageSource
 
 colors = {
     "RED": 0xc93434,
 }
 
 nhentai_icon = "https://clipground.com/images/nhentai-logo-3.jpg"
+nhentai_HOME = "https://nhentai.net/"
 
 def get_doujin_embed(doujin_id):
     """Prepares an embed to display information according to the parsed doujin_id.
@@ -111,26 +113,16 @@ async def doujin_reader(ctx, message, doujin_id):
             #Initialize data
             doujin = Hentai(doujin_id)
             title = doujin.title(Format.Pretty)
-            pages = tuple([getattr(pages, "url") for pages in doujin.pages])
-
-            #Prepare the embed
-            embed = Embed(color=colors["RED"])
-            embed.set_author(name="NHentai",icon_url=nhentai_icon,
-            url=doujin.HOME
-            )
-            embed.set_image(url=pages[0])
-            embed.set_footer(text=f"Page 1/{len(pages)}")
-
-            #Present and save the reader to be used for iterating.
+            pages = tuple(getattr(pages, "url") for pages in doujin.pages)
             await message.edit(content=f"Reading **{title}**...")
-            reader = await ctx.send(embed=embed)
+            reader = HentaiMenuPages(source=HentaiPageSource(pages))
+            await reader.start(ctx)
         except Exception as e:
-            await ctx.send(f"There was something wrong with loading the doujin, please try again: {e}")
+            await ctx.send(f"There was something wrong with loading the doujin, please try again: `{e}`")
     else:
         embed = Embed(title="Error", description="The doujin you are looking for does not exist.", color=colors["RED"])
         await message.edit(content="", embed=embed)
         await asyncio.sleep(3)
         await message.delete()
         await ctx.message.delete()
-
-        
+    

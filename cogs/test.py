@@ -3,6 +3,7 @@ from nextcord.ext import commands, menus
 #from nextcord.ext.menus import MenuPaginationButton
 from utils import default
 
+
 class ReactionMenu(menus.Menu):
     async def send_initial_message(self, ctx, channel):
         return await channel.send(f"Hello {ctx.author}")
@@ -20,6 +21,8 @@ class ReactionMenu(menus.Menu):
         self.stop()
         await self.message.delete()
 
+
+
 class ReaderMenu(menus.ButtonMenu):
     def __init__(self):
         super().__init__(timeout=10,disable_buttons_after=True)
@@ -27,22 +30,31 @@ class ReaderMenu(menus.ButtonMenu):
     async def send_initial_message(self, ctx, channel):
         return await channel.send(f"Hello {ctx.author}", view=self)
     
-    @ui.button(emoji='\N{THUMBS UP SIGN}')
+    @ui.button(emoji='\N{Black Left-Pointing Triangle}')
     async def on_thumbs_up(self, button, interaction):
         await self.message.edit(content=f"Thanks {interaction.user}!")
     
-    @ui.button(emoji='\N{BLACK SQUARE FOR STOP}\ufe0f')
+    @ui.button(emoji='\N{Octagonal Sign}')
     async def on_stop(self, button, interaction):
         await self.message.edit(content="Reader has been stopped.")
         self.stop()
     
-    @ui.button(emoji='\N{THUMBS DOWN SIGN}')
+    @ui.button(emoji='\N{Black Right-Pointing Triangle}')
     async def on_thumbs_down(self, button, interaction):
         await self.message.edit(content="Ohh... okay.")
     
     async def on_timeout(self):
         await self.message.edit(content="Reader has timed out.")
         self.stop()
+
+
+
+class TestPageSource(menus.ListPageSource):
+    def __init__(self, data):
+        super().__init__(data, per_page=1)
+    
+    async def format_page(self, menu, entries):
+        return '\n'.join(entries)
 
 
 class Test(commands.Cog):
@@ -60,6 +72,16 @@ class Test(commands.Cog):
     async def discord_buttons(self, ctx):
         await ReaderMenu().start(ctx)
 
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def basic_page(self, ctx):
+        entries = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+        pages = menus.ButtonMenuPages(
+            source=TestPageSource(entries),
+            clear_buttons_after=True
+        )
+        await pages.start(ctx)
+        
         
 def setup(bot):
     bot.add_cog(Test(bot))
