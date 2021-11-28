@@ -88,6 +88,22 @@ class Owner(commands.Cog):
 
         await ctx.send(f"Reloaded module: {name_maker}")
 
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    async def reloadTest(self, ctx, name: str):
+        """Reload Test Modules. (Owner only)"""
+        name_maker = f"`test/{name}`"
+        try:
+            module_name = importlib.import_module(f"test.{name}")
+            importlib.reload(module_name)
+        except ModuleNotFoundError:
+            return await ctx.send(f"Couldn't find module: {name}")
+        except Exception as e:
+            error = default.traceback_maker(e)
+            return await ctx.send(f"Module '{name}' cannot be reloaded:\n{error}")
+        
+        await ctx.send(f"Reloaded test module: {name_maker}")
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))

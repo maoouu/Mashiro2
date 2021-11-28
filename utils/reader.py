@@ -2,7 +2,7 @@ from nextcord import Embed
 from nextcord.ext import menus
 
 class HentaiMenuPages(menus.ButtonMenuPages, inherit_buttons=False):
-    def __init__(self, source, timeout=300):
+    def __init__(self, source, timeout=3600):
         super().__init__(source, timeout=timeout, disable_buttons_after=True,)
 
         #Add custom buttons

@@ -87,7 +87,7 @@ def get_doujin_embed(doujin_id):
             print(f"There's something wrong with the embed: {e}")
 
     else:
-        embed = Embed(title="Error", description="The doujin you are looking for does not exist")
+        embed = Embed(title="Error", description="The doujin you are looking for does not exist", color=colors["RED"])
         embed.set_author(
             name="NHentai", icon_url=nhentai_icon
         )
@@ -121,8 +121,8 @@ async def doujin_reader(ctx, message, doujin_id):
             await ctx.send(f"There was something wrong with loading the doujin, please try again: `{e}`")
     else:
         embed = Embed(title="Error", description="The doujin you are looking for does not exist.", color=colors["RED"])
+        embed.set_author(
+            name="NHentai", icon_url=nhentai_icon
+        )
         await message.edit(content="", embed=embed)
-        await asyncio.sleep(3)
-        await message.delete()
-        await ctx.message.delete()
     
