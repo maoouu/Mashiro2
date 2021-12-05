@@ -1,7 +1,7 @@
 {
   "prefix": "!!",
-  "join_message": "Thanks for adding me!" ,
-  "activity": "!!help or @MashiroBot help",
+  "join_message": "Thanks for adding me!",
+  "activity": "Nhentai commands are currently out of service.",
   "activity_type": "playing|watching|listening|competing",
   "status": "online|idle|dnd",
   "owner_deletion_messages": ["What are you doing? lmao", "Seriously?"],

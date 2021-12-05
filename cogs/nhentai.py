@@ -1,3 +1,4 @@
+from hentai import Hentai
 from nextcord.ext import commands
 from utils import default, doujintools
 
@@ -23,6 +24,15 @@ class Nhentai(commands.Cog):
         """Turns doujin into a readable discord embed."""
         message = await ctx.reply("Initializing reader...")
         await doujintools.doujin_reader(ctx, message, hentai_code)
+
+    @commands.command(hidden=True)
+    @commands.is_owner()
+    @commands.is_nsfw()
+    async def test_doujin(self, ctx):
+        try:
+          await ctx.send(f"{Hentai.exists(177013)}")
+        except Exception as e:
+          await ctx.send(f"Cannot execute code: {e}")
 
 
 def setup(bot):
