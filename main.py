@@ -7,12 +7,11 @@ from utils import default
 from utils.data import Bot, HelpFormat
 
 config = default.config()
-
+db = default.database()
 
 def get_prefix(bot, message):
     """Gets the custom guild prefix,
     returns default prefix if it doesn't exist."""
-    db = default.database()
     prefix = config["prefix"]
     guild_id = str(message.guild.id)
 

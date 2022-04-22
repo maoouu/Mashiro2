@@ -1,5 +1,3 @@
 # Python Virtual Environment
 env/
-
-*.pyc
 *.pyc

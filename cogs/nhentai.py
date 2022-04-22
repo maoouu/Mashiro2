@@ -1,3 +1,4 @@
+import nextcord
 from hentai import Hentai
 from nextcord.ext import commands
 from utils import default, doujintools
