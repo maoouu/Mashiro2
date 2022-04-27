@@ -1,7 +1,7 @@
 import asyncio
 
 from hentai import Hentai, Format
-from nextcord import Embed
+from nextcord import Embed, Interaction
 from utils.reader import HentaiMenuPages, HentaiPageSource
 
 colors = {
@@ -126,3 +126,31 @@ async def doujin_reader(ctx, message, doujin_id):
         )
         await message.edit(content="", embed=embed)
     
+
+async def slash_reader(interaction: Interaction, doujin_id: str):
+    """ The slash command variant of doujin_reader().
+    
+    Parameters
+    ----------
+    interaction : nextcord.Interaction
+        Nextcord slash interaction.
+    
+    doujin_id : str
+        parseable nhentai doujin ID.
+    """
+    if Hentai.exists(doujin_id):
+        try:
+            #Initialize data
+            doujin = Hentai(doujin_id)
+            title = doujin.title(Format.Pretty)
+            pages = tuple(getattr(pages, "url") for pages in doujin.pages)
+            reader = HentaiMenuPages(source=HentaiPageSource(pages))
+            await reader.start(interaction=interaction, ephemeral=True)
+        except Exception as e:
+            await interaction.response.send_message(f"There was something wrong with loading the doujin, please try again: `{e}`")
+    else:
+        embed = Embed(title="Error", description="The doujin you are looking for does not exist.", color=colors["RED"])
+        embed.set_author(
+            name="NHentai", icon_url=nhentai_icon
+        )
+        await interaction.response.send_message(content="", embed=embed)

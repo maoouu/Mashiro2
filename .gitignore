@@ -1,4 +1,11 @@
 # Python Virtual Environment
 env/
+__pycache__/
+.vscode/
+.env/
+
+# Extensions
 *.pyc
-.vscode
+
+# Specific files
+cogs/slash_test.py
