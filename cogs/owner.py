@@ -18,7 +18,7 @@ class Owner(commands.Cog):
         try:
             self.bot.load_extension(f"cogs.{name}")
         except Exception as e:
-            return await ctx.send(default.tracemaker(e))
+            return await ctx.send(default.traceback_maker(e))
         await ctx.send(f"Loaded extension: [`{name}`]")
 
     @commands.command()
@@ -28,7 +28,7 @@ class Owner(commands.Cog):
         try:
             self.bot.unload_extension(f"cogs.{name}")
         except Exception as e:
-            return await ctx.send(default.tracemaker(e))
+            return await ctx.send(default.traceback_maker(e))
         await ctx.send(f"Unloaded extension: [`{name}`]")
 
     @commands.command()
