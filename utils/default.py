@@ -22,9 +22,11 @@ def traceback_maker(err, advanced_traceback_mode: bool = False):
     return error if advanced_traceback_mode else f"{type(err).__name__} : {err}"
 
 
-def database(database_url: str = os.environ["REPLIT_DB_URL"]):
+def database():
     """Fetches database class"""
     try:
+        database_url = os.environ["REPLIT_DB_URL"]
         return Database(db_url=database_url)
     except KeyError:
-        raise KeyError("Environment variable 'REPLIT_DB_URL' is missing.")
+        print("Error: Environment variable 'REPLIT_DB_URL' is missing.")
+        return

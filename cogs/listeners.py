@@ -43,6 +43,9 @@ class Listeners(commands.Cog):
 
         # Indicate successful bootup
         print(f"Ready: {self.bot.user} | Servers: {len(self.bot.guilds)}")
+        
+        # Rollout Application Commands
+        await self.bot.rollout_application_commands()
 
     @commands.Cog.listener()
     async def on_guild_join(self, guild):
@@ -65,6 +68,7 @@ class Listeners(commands.Cog):
         finally:
             # Add guild prefix to database
             self.db[str(guild.id)] = self.config["prefix"]
+            await self.bot.rollout_application_commands()
 
 
 def setup(bot):

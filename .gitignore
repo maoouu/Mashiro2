@@ -9,3 +9,4 @@ __pycache__/
 
 # Specific files
 cogs/slash_test.py
+.vscode/settings.json

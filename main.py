@@ -7,21 +7,27 @@ from utils import default
 from utils.data import Bot, HelpFormat
 
 config = default.config()
-db = default.database()
 
 def get_prefix(bot, message):
     """Gets the custom guild prefix,
     returns default prefix if it doesn't exist."""
-    prefix = config["prefix"]
-    guild_id = str(message.guild.id)
-
-    if guild_id in db.keys():
-        prefix = db[guild_id]
-    else:
-        db[guild_id] = prefix
-
-    #return prefix
-    return commands.when_mentioned_or(prefix)(bot, message)
+    # prefix = config["prefix"]
+    # guild_id = str(message.guild.id)
+    # db = default.database()
+    
+    # try:
+    #     if guild_id in db.keys():
+    #         prefix = db[guild_id]
+    #     else:
+    #         db[guild_id] = prefix
+    # except Exception as e:
+    #     # Default to '!!' prefix
+    #     prefix = "!!"
+    #     print(f"Error when fetching database: {e}")
+    #     print(f"Switching to default prefix [{prefix}]")
+    # finally:
+    #     #return prefix
+    return commands.when_mentioned_or(config['prefix'])(bot, message)
 
 
 def main():
